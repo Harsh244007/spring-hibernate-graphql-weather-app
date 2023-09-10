@@ -26,7 +26,6 @@ public class CountryServiceiml implements CountryService {
     }
 
     public List<CountryEntity> findAll() {
-        System.out.println("Getting result from db");
         return StreamSupport.stream(countryRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 }
