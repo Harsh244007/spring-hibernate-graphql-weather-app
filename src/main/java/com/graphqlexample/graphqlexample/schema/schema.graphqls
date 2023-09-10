@@ -1,0 +1,22 @@
+type Country {
+    id: String!
+    country: String!
+}
+
+type Weather {
+    id: Long!
+    country: String!
+    city: String!
+}
+
+type Query {
+    countries: [Country]
+    country(id: String!): Country
+    weathers: [Weather]
+    weather(id: Long!): Weather
+}
+
+type Mutation {
+    createCountry(id: String!, country: String!): Country
+    createWeather(country: String!, city: String!): Weather
+}
