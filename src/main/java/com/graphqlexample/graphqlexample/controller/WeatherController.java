@@ -3,6 +3,8 @@ package com.graphqlexample.graphqlexample.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ public class WeatherController {
         this.weatherMapper = weatherMapper;
     }
 
+    @CacheEvict(value = "weather", allEntries = true)
     @PostMapping("")
     public ResponseEntity<Object> createWeather(@RequestBody WeatherDto weather) {
 
@@ -47,6 +50,8 @@ public class WeatherController {
         return ResponseEntity.ok(responseCountryDto);
     }
 
+    
+    @Cacheable("weather")
     @GetMapping("")
     public List<WeatherDto> listAllWeather() {
         List<WeatherEntity> weathers = weatherServices.findAll();

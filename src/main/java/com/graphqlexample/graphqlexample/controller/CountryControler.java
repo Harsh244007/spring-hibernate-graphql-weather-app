@@ -3,6 +3,8 @@ package com.graphqlexample.graphqlexample.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,8 @@ public class CountryControler {
         this.countryMapper = countryMapper;
     }
 
+    
+    @CacheEvict(value = "countries", allEntries = true)
     @PostMapping("{id}")
     public ResponseEntity<Object> createCountry(@PathVariable("id") Long id, @RequestBody CountryDto country) {
         if (country.getCountry() == null || country.getCountry().isEmpty()) {
@@ -43,6 +47,7 @@ public class CountryControler {
         return ResponseEntity.ok(responseCountryDto);
     }
 
+    @Cacheable("countries")
     @GetMapping("")
     public List<CountryDto> listAllCountries() {
         List<CountryEntity> countries = countryServices.findAll();
